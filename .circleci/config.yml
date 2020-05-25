@@ -50,7 +50,7 @@ workflows:
   build-and-test:
     jobs:
       - checkout
-      - test
+      - test:
           requires:
             - checkout
       - build:
