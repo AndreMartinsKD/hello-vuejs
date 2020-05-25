@@ -28,10 +28,6 @@ jobs:
       - run:
           command: az resource list
           name: List resources of tenant stored as `AZURE_SP_TENANT` env var
-          environment:
-            AZURE_SP_TENANT: fbe6b494-9915-418d-8617-487d97b34cad
-            AZURE_SP: http://ServicePrincipalName
-            AZURE_SP_PASSWORD: ./tmpi7dcnjs6.pem
 workflows:
   build-and-test:
     jobs:
