@@ -6,7 +6,6 @@ jobs:
   test:
     executor:
       name: node/default
-    working_directory: ~/repo
     steps:
       - checkout
       - node/with-cache:
@@ -16,23 +15,23 @@ jobs:
   build:
     executor:
       name: node/default
-    working_directory: ~/repo
     steps:
       - node/with-cache:
           steps:
-            - run: npm install
+            - run: npm install --only=prod
             - run: npm build
             - persist_to_workspace:
                 root: ~/
-                paths: repo/*
+                paths:
+                  - project
   publish:
-    executor: azure-cli/azure-docker
-    working_directory: ~/repo
+    executor: azure-cli/azure-docker    
     steps:
       - run: ls -la
       - checkout
       - attach_workspace:
           at: ~/
+       - run: ls -la
       - azure-cli/login-with-service-principal
       - run:
           name: publish dist folder
