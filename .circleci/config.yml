@@ -32,7 +32,6 @@ jobs:
 workflows:
   build-and-test:
     jobs:
-      - publish
       - test
       - build:
           requires:
