@@ -49,7 +49,10 @@ jobs:
 workflows:
   build-and-test:
     jobs:
+      - checkout
       - test
+          requires:
+            - checkout
       - build:
           requires:
             - test
