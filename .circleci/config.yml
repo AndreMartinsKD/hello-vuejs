@@ -2,6 +2,11 @@ version: 2.1
 orbs:
   node: circleci/node@1.1.6
   azure-cli: circleci/azure-cli@1.1.0
+commands:
+  master_only: &master_only
+  filters:
+    branches:
+      only: master
 jobs:
   checkout:
     executor:
@@ -35,7 +40,19 @@ jobs:
           root: ~/
           paths:
             - project
-  publish:
+  publish-prd:
+    executor: azure-cli/azure-docker
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: ls -la
+      - azure-cli/login-with-service-principal
+      - run:
+          name: publish dist folder
+          command: az storage blob upload-batch -s dist -d \$web --account-name $ACC_NAME
+          enviroment:
+            ACC_NAME: kdluizpereira
+  publish-stagging:
     executor: azure-cli/azure-docker
     steps:
       - attach_workspace:
@@ -49,7 +66,7 @@ jobs:
             ACC_NAME: kdluizpereira
 
 workflows:
-  build-and-test:
+  publish:
     jobs:
       - checkout
       - test:
@@ -58,8 +75,11 @@ workflows:
       - build:
           requires:
             - checkout
-      - publish:
+      - publish-prd:
+          <<: *master_only
           type: approval
           requires:
             - test
             - build
+            - publish-stagging
+            
