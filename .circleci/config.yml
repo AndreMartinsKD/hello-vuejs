@@ -27,7 +27,9 @@ jobs:
                 paths: repo/*
   publish:
     executor: azure-cli/azure-docker
+    working_directory: ~/repo
     steps:
+      - run: ls -la
       - checkout
       - attach_workspace:
           at: ~/
