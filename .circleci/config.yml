@@ -3,7 +3,7 @@ orbs:
   node: circleci/node@1.1.6
   azure-cli: circleci/azure-cli@1.1.0
 jobs:
-  test:
+  checkout:
     executor:
       name: node/default
     steps:
@@ -11,6 +11,19 @@ jobs:
       - node/with-cache:
           steps:
             - run: npm install
+            - persist_to_workspace:
+                root: ~/
+                paths:
+                  - project
+  test:
+    executor:
+      name: node/default
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: ls -la
+      - node/with-cache:
+          steps:
             - run: npm test
   build:
     executor:
@@ -18,16 +31,12 @@ jobs:
     steps:
       - node/with-cache:
           steps:
-            - run: npm install --only=prod
+            - attach_workspace:
+                at: ~/
             - run: npm run build
             - run: ls -la
-            - persist_to_workspace:
-                root: ~/
-                paths:
-                  - dist
-                  - tmpi7dcnjs6.pem
   publish:
-    executor: azure-cli/azure-docker    
+    executor: azure-cli/azure-docker
     steps:
       - attach_workspace:
           at: ~/
