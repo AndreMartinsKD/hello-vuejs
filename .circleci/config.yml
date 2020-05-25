@@ -14,9 +14,8 @@ jobs:
             - run: npm test
   build:
     executor:
-      name: azure-cli/default
+      name: node/default
     steps:
-      - azure-cli/install
       - node/with-cache:
           steps:
             - run: npm install
@@ -24,10 +23,11 @@ jobs:
   publish:
     executor: azure-cli/azure-docker
     steps:
+      - checkout
       - azure-cli/login-with-service-principal
       - run:
-          command: az resource list
           name: List resources of tenant stored as `AZURE_SP_TENANT` env var
+          command: az resource list
 workflows:
   build-and-test:
     jobs:
