@@ -22,23 +22,19 @@ jobs:
       - attach_workspace:
           at: ~/
       - run: ls -la
-      - node/with-cache:
-          steps:
-            - run: npm test
+      - run: npm test
   build:
     executor:
       name: node/default
     steps:
-      - node/with-cache:
-          steps:
-            - attach_workspace:
-                at: ~/
-            - run: npm run build
-            - run: ls -la
-            - persist_to_workspace:
-                root: ~/
-                paths:
-                  - project
+      - attach_workspace:
+          at: ~/
+      - run: npm run build
+      - run: ls -la
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project
   publish:
     executor: azure-cli/azure-docker
     steps:
