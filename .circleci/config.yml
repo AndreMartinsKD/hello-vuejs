@@ -2,8 +2,8 @@ version: 2.1
 orbs:
   node: circleci/node@1.1.6
   azure-cli: circleci/azure-cli@1.1.0
-commands:
-  master_only: &master_only
+master_only: &master_only
+  description: master banch only
   filters:
     branches:
       only: master
