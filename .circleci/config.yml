@@ -31,7 +31,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/
-       - run: ls -la
+      - run: ls -la
       - azure-cli/login-with-service-principal
       - run:
           name: publish dist folder
