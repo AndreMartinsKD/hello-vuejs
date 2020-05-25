@@ -26,8 +26,9 @@ jobs:
       - checkout
       - azure-cli/login-with-service-principal
       - run:
-          name: List resources of tenant stored as `AZURE_SP_TENANT` env var
-          command: az resource list
+          name: publish dist folder
+          command: az storage blob upload-batch -s ./dist -d \$web --account-name kdluizpereira
+
 workflows:
   build-and-test:
     jobs:
@@ -36,3 +37,6 @@ workflows:
       - build:
           requires:
             - test
+      -publish:
+          requires:
+            - build
