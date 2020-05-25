@@ -35,6 +35,10 @@ jobs:
                 at: ~/
             - run: npm run build
             - run: ls -la
+            - persist_to_workspace:
+                root: ~/
+                paths:
+                  - project
   publish:
     executor: azure-cli/azure-docker
     steps:
@@ -44,7 +48,7 @@ jobs:
       - azure-cli/login-with-service-principal
       - run:
           name: publish dist folder
-          command: az storage blob upload-batch -s ./dist -d \$web --account-name kdluizpereira
+          command: az storage blob upload-batch -s dist -d \$web --account-name kdluizpereira
 
 workflows:
   build-and-test:
