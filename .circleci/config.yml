@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   node: circleci/node@1.1.6
+  azure-cli: circleci/azure-cli@1.1.0
 jobs:
   test:
     executor:
@@ -13,16 +14,24 @@ jobs:
             - run: npm test
   build:
     executor:
-      name: node/default
+      name: azure-cli/default
     steps:
-      - checkout
+      - azure-cli/install
       - node/with-cache:
           steps:
             - run: npm install
             - run: npm build
+  publish:
+    executor: azure-cli/azure-docker
+    steps:
+      - azure-cli/login-with-service-principal
+      - run:
+          command: az resource list
+          name: List resources of tenant stored as `AZURE_SP_TENANT` env var
 workflows:
   build-and-test:
     jobs:
+      - publish
       - test
       - build:
           requires:
