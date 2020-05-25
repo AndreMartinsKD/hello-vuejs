@@ -37,6 +37,6 @@ workflows:
       - build:
           requires:
             - test
-      -publish:
+      - publish:
           requires:
             - build
