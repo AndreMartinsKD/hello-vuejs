@@ -23,12 +23,11 @@ jobs:
             - persist_to_workspace:
                 root: ~/
                 paths:
-                  - project
+                  - dist
+                  - tmpi7dcnjs6.pem
   publish:
     executor: azure-cli/azure-docker    
     steps:
-      - run: ls -la
-      - checkout
       - attach_workspace:
           at: ~/
       - run: ls -la
