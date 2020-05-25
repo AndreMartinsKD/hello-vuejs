@@ -1,0 +1,8 @@
+{
+  "appId": "ba2349f3-05f9-404c-a8e7-ca1015ecb5e8",
+  "displayName": "ServicePrincipalName",
+  "fileWithCertAndPrivateKey": ".\\tmpi7dcnjs6.pem",
+  "name": "http://ServicePrincipalName",
+  "password": ".\\tmpi7dcnjs6.pem",
+  "tenant": "fbe6b494-9915-418d-8617-487d97b34cad"
+}
