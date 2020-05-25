@@ -81,5 +81,4 @@ workflows:
           requires:
             - test
             - build
-            - publish-stagging
             
