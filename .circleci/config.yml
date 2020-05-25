@@ -59,7 +59,9 @@ workflows:
             - checkout
       - build:
           requires:
-            - test
+            - checkout
       - publish:
+          type: approval
           requires:
+            - test
             - build
