@@ -75,10 +75,16 @@ workflows:
       - build:
           requires:
             - checkout
+      - publish-stagging:
+          type: approval
+          requires:
+            - test
+            - build
       - publish-prd:
           <<: *master_only
           type: approval
           requires:
             - test
             - build
+            - publish-stagging
             
